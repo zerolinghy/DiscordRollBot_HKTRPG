@@ -1,27 +1,5 @@
-# RoboYabasoDiscord@HKTRPG  V0.3.3
 # 開放原始碼的Discord骰子機器人
-關於RoboYabaso
-==
-RoboYabaso是一個開放源碼的line骰子機器人計畫。</br>
-最早由LarryLo  Retsnimle開發。</br>
-  
-
-這是建立在Heroku的免費伺服器上，所以大家都可以按照下面的教程，客制化做一個自己的DiscordBot！</br>
-不懂授權條款，如果自己客製一個使用其中的CODE的話，就把它繼續開源下去吧
-</br></br></br>
-
-試用
-==
-RoboYabasoDiscord@HKTRPG 的Link是：</br>
-https://discordapp.com/oauth2/authorize?&client_id=544462904037081138&scope=bot&permissions=8 </br>
-
-骰組指令在最底下</br>
-
-</br>
-順便宣傳
-<a href="http://www.goddessfantasy.net/bbs/index.php?board=1400.0">香港TRPG區</a>
-<a href="https://www.hktrpg.com">TRPG百科</a>
-招技術人員
+修改自：https://github.com/zeteticl/DiscordRollBot_HKTRPG
 </br></br></br>
 
 特色介紹</br>
@@ -78,7 +56,7 @@ Step3：將DiscordBot部署到Heroku
 * 你會看到這個</br>
 ![Heroku](http://i.imgur.com/sbCVOcW.jpg)</br></br></br>
 當然，先取一個App name，然後把以前記下的「Token」貼上.</br></br>
-如果想要啓動語,可以順便打上. 例如啓動語!trpg 便會變成!trpg 1d100 
+如果想要啓動語,可以順便打上. 例如啓動語!trpg 便會變成!trpg 1d100
 接著，按下Deploy app，等他跑完之後按下Manage App</br>
 距離部署完機器人只差一步啦！
 </br></br></br></br>
@@ -155,7 +133,7 @@ Choice：啓動語choice/隨機/選項/選1</br>
 隨機排序：啓動語　排序</br>
 (問題)(啓動語)(問題)  (選項1) (選項2)(選項3)</br>
 例子 交換禮物排序 A君 C君 F君 G君</br></br>
- 
+
 ・COC六版判定　CCb （目標値）：做出成功或失敗的判定</br>
 例）CCb 30　CCb 80</br>
 ・COC七版判定　CCx（目標値）</br>
@@ -170,7 +148,7 @@ Choice：啓動語choice/隨機/選項/選1</br>
   例子 1NC 2Na+4 3na-2</br>
 依戀  NM (問題)</br>
   例子 NM 我的依戀</br></br>
-  
+
 ・WOD 黑暗世界擲骰</br>
 (骰數)WOD/Wd(加骰)(+成功數) (問題)</br>
   例子 2wod 3wd8 15wd9+2</br></br>
