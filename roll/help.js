@@ -20,7 +20,8 @@ function Help() {
 		 \n Choice：啓動語choice/隨機/選項/選1\
 		 \n (問題)(啓動語)(問題)  (選項1) (選項2) \
 		 \n 例子 隨機收到聖誕禮物數 1 2 3 >4  \
-		 \n COC7ed：cc 80 技能小於等於80",
+		 \n COC7ed：cc 80 技能小於等於80 \
+		 \n 其他指令請到 https://github.com/zerolinghy/DiscordRollBot_HKTRPG",
 	};
 	return rply;
 }
