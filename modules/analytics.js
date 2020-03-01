@@ -7,7 +7,7 @@ require('fs').readdirSync('./roll/').forEach(function (file) {
 	}
 });
 
-//用來呼叫骰組,新增骰組的話,要寫條件式到下面呼叫 
+//用來呼叫骰組,新增骰組的話,要寫條件式到下面呼叫
 //格式是 exports.骰組檔案名字.function名
 function parseInput(inputStr) {
 	//console.log('InputStr: ' + inputStr);
@@ -22,12 +22,12 @@ function parseInput(inputStr) {
 	//在下面位置開始分析trigger
 	if (trigger.match(/(^ccrt$)/) != null) return exports.coc.ccrt();
 	if (trigger.match(/(^ccsu$)/) != null) return exports.coc.ccsu();
-	//普通ROLL擲骰判定在此	
+	//普通ROLL擲骰判定在此
 	if (inputStr.toLowerCase().match(/^\d+\s+\d+d\d+/) != null || inputStr.toLowerCase().match(/^\d+d\d+/) != null) return exports.rollbase.nomalDiceRoller(inputStr, mainMsg[0], mainMsg[1], mainMsg[2]);
 
 	//xBy>A 指令開始於此
 	if (trigger.match(/^(\d+)(b)(\d+)$/i) != null) return exports.advroll.xBy(trigger, mainMsg[1], mainMsg[2]);
-	//xUy 指令開始於此	
+	//xUy 指令開始於此
 	if (trigger.match(/^(\d+)(u)(\d+)$/i) != null && isNaN(mainMsg[1]) == false) return exports.advroll.xUy(trigger, mainMsg[1], mainMsg[2], mainMsg[3]);
 
 	if (trigger.match(/^ccb$|^cc$|^ccn[1-2]$|^cc[1-2]$|^dp$/) != null && mainMsg[1] <= 1000) {
@@ -39,7 +39,7 @@ function parseInput(inputStr) {
 
 		//cc指令開始於此
 		if (trigger == 'cc' && mainMsg[1] <= 1000) return exports.coc.coc7(mainMsg[1], mainMsg[2]);
-		//獎懲骰設定於此	
+		//獎懲骰設定於此
 		if (trigger == 'cc1' && mainMsg[1] <= 1000) return exports.coc.coc7bp(mainMsg[1], '1', mainMsg[2]);
 		if (trigger == 'cc2' && mainMsg[1] <= 1000) return exports.coc.coc7bp(mainMsg[1], '2', mainMsg[2]);
 		if (trigger == 'ccn1' && mainMsg[1] <= 1000) return exports.coc.coc7bp(mainMsg[1], '-1', mainMsg[2]);
@@ -55,7 +55,7 @@ function parseInput(inputStr) {
 	if (trigger.match(/^bothelp$|^bot幫助$/) != null) return exports.help.Help();
 
 
-	//nc指令開始於此 來自Rainsting/TarotLineBot 
+	//nc指令開始於此 來自Rainsting/TarotLineBot
 	if (trigger.match(/^[1-4]n[c|a][+|-][1-99]$|^[1-4]n[c|a]$/) != null) return exports.nc.nechronica(trigger, mainMsg[1]);
 
 	//依戀
@@ -93,16 +93,12 @@ function parseInput(inputStr) {
 	if (trigger.match(/立flag|死亡flag/) != null) return exports.funny.BStyleFlagSCRIPTS();
 
 	//鴨霸獸指令開始於此
-	if (trigger.match(/鴨霸獸|巴獸/) != null) return exports.funny.randomReply();
-	if (trigger.match(/運氣|運勢/) != null) return exports.funny.randomLuck(mainMsg); //占卜運氣		
+	if (trigger.match(/鴨霸獸/) != null) return exports.funny.randomReply();
+	if (trigger.match(/運勢/) != null) return exports.funny.randomLuck(mainMsg); //占卜運氣
 
 
-
-	/*tarot 指令
-	if (trigger.match(/猜拳/) != null) {
-		return RockPaperScissors(inputStr, mainMsg[1]);
-	}
-*/
+	//tarot 指令
+	if (trigger.match(/猜拳/) != null) return RockPaperScissors(inputStr, mainMsg[1]);
 
 }
 
