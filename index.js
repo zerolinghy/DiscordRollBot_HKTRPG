@@ -64,5 +64,5 @@ client.on('message', message => {
 
 //Set Activity 可以自定義正在玩什麼
 client.on('ready', () => {
-  client.user.setActivity('指令請看bothelp', {type: listening})
+  client.user.setActivity('指令請看bothelp', {type:listening})
 })
