@@ -61,3 +61,8 @@ client.on('message', message => {
 		}
 	}
 });
+
+//Set Activity 可以自定義正在玩什麼
+client.on('ready', () => {
+  client.user.setGame('bothelp |運氣占卜「運勢」')
+})
