@@ -66,6 +66,9 @@ function BStyleFlagSCRIPTS() {
 「我們至今所做的一切不是徒勞的，只要我們不止步，前方就會有路！」', '\
 「我老爸是....你有種就....」', '\
 「無論發生什麼事，我都會相信你」', '\
+「這裡交給我，你們快走！」', '\
+「我馬上就會跟上。」', '\
+「必須得有人留下！」', '\
 「我可以好好利用這件事」'];
 	rply.text = rplyArr[Math.floor((Math.random() * (rplyArr.length)) + 0)];
 	return rply;
