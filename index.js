@@ -53,7 +53,7 @@ client.on('message', message => {
 				message.channel.send("暗骰進行中");
 				message.author.send(rplyVal.text);;
 			} else {
-				message.channel.send(rplyVal.text)
+				message.channel.send("<@" + message.author.id + ">\n" + rplyVal.text)
 			}
 			//console.log("rplyVal: " + rplyVal);
 		} else {
