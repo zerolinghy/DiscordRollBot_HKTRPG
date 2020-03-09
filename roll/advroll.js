@@ -55,11 +55,9 @@ function d66n(text) {
 }
 ////////////////////////////////////////
 //////////////// xBy
-////////////////  xBy<>=z  成功数1
-////////////////  xBy Dz   成功数1
 ////////////////////////////////////////
 function xBy(triggermsg, text01, text02) {
-	let returnStr = '(' + triggermsg + '>=' + text01 + ')';
+	let returnStr = '(' + triggermsg + ')';
 	let match = /^(\d+)(B)(\d+)$/i.exec(triggermsg); //判斷式  [0]3B8,[1]3,[2]B,[3]8
 	let varcou = new Array();
 	let varsu = 0;
