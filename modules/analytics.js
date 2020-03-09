@@ -77,6 +77,7 @@ function parseInput(inputStr) {
 	if (trigger.match(/排序/) != null && mainMsg.length >= 3) return exports.funny.SortIt(inputStr, mainMsg);
 	if (trigger.match(/^d66$/) != null) return exports.advroll.d66(mainMsg[1]);
 	if (trigger.match(/^d66s$/) != null) return exports.advroll.d66s(mainMsg[1]);
+	if (trigger.match(/^d66n$/) != null) return exports.advroll.d66n(mainMsg[1]);
 
 
 	//choice 指令開始於此
