@@ -59,98 +59,26 @@ function d66n(text) {
 ////////////////  xBy Dz   成功数1
 ////////////////////////////////////////
 function xBy(triggermsg, text01, text02) {
-	//	console.log('dd')
-	let match = /^((\d+)(b)(\d+))(|(([<]|[>]|)(|[=]))(\d+))$/i.exec(triggermsg);
-	//判斷式 0:"5b10<=80" 1:"5b10" 2:"5" 3:"b" 4:"10" 5:"<=80" 6:"<=" 	7:"<" 8:"=" 	9:"80"
-	//console.log('match', match)
-	let match01 = /^((|d)(\d+))$/i.exec(text01);
-	//console.log('match01', match01)
-	//判斷式 0:"d5"  1:"d5" 2:"d" 3:"5"
-	let text = "";
-	if (text01) text = text01
-	if (!match[5] && match01 && match01[2].toLowerCase() == 'd' && !isNaN(match01[3])) {
-		match[6] = "<";
-		match[7] = "=";
-		match[8] = match01[3]
-		triggermsg += "<=" + match01[3]
-		match = /^((\d+)(b)(\d+))(|(([<]|[>]|)(|[=]))(\d+))$/i.exec(triggermsg);
-		text = ""
-		if (text02) text = text02
-	}
-	if (!match[5] && match01 && !match01[2] && !isNaN(match01[3])) {
-		match[6] = ">";
-		match[7] = "=";
-		match[8] = match01[3]
-		triggermsg += ">=" + match01[3]
-		match = /^((\d+)(b)(\d+))(|(([<]|[>]|)(|[=]))(\d+))$/i.exec(triggermsg);
-		text = ""
-		if (text02) text = text02
-	}
 	let returnStr = '(' + triggermsg + ')';
-	//console.log(match)
-	//	console.log(match01)
+	let match = /^(\d+)(B)(\d+)$/i.exec(triggermsg); //判斷式  [0]3B8,[1]3,[2]B,[3]8
 	let varcou = new Array();
 	let varsu = 0;
-	for (var i = 0; i < Number(match[2]); i++) {
-		varcou[i] = rollbase.Dice(match[4]);
+	for (var i = 0; i < Number(match[1]); i++) {
+		varcou[i] = rollbase.Dice(match[3]);
 	}
-	//	console.log(varcou)
-	//varcou.sort(rollbase.sortNumber);
-	//(5B7>6) → 7,5,6,4,4 →
-
-	for (var i = 0; i < varcou.length; i++) {
-		switch (true) {
-			case (match[7] == "<" && !match[8]):
-				if (varcou[i] < match[9])
-					varsu++;
-				else {
-					//console.log('01: ', varcou[i])
-					varcou[i] = strikeThrough(varcou[i])
-				}
-				break;
-			case (match[7] == ">" && !match[8]):
-				if (varcou[i] > match[9])
-					varsu++;
-				else {
-					//	console.log('02: ', varcou[i])
-
-					varcou[i] = strikeThrough(varcou[i])
-				}
-				break;
-			case (match[7] == "<" && match[8] == "="):
-				if (varcou[i] < match[9] || varcou[i] == match[9])
-					varsu++;
-				else {
-					//	console.log('03: ', varcou[i])
-
-					varcou[i] = strikeThrough(varcou[i])
-				}
-				break;
-			case (match[7] == ">" && match[8] == "="):
-				if (varcou[i] > match[9] || varcou[i] == match[9])
-					varsu++;
-				else {
-					//	console.log('04: ', varcou[i])
-
-					varcou[i] = strikeThrough(varcou[i])
-				}
-				break;
-			case (match[7] == "" && match[8] == "="):
-				if (varcou[i] == match[9])
-					varsu++;
-				else {
-					//	console.log('05: ', varcou[i])
-					//	console.log('match[7]: ', match[7])
-					varcou[i] = strikeThrough(varcou[i])
-				}
-				break;
-			default:
-				break;
+	varcou.sort(rollbase.sortNumber);
+	//(5B7>6) → 7,5,6,4,4 → 成功数1
+	if (isNaN(text01) == false && Number(text01) <= Number(match[3])) {
+		for (let i = 0; i < Number(match[1]); i++) {
+			if (Number(varcou[i]) >= Number(text01)) varsu++;
 		}
+		if (text02 == undefined) text02 = '';
+
+		returnStr += ' → ' + varcou + ' → 成功數' + varsu + ' ' + text02;
+	} else {
+		if (text01 == undefined) text01 = '';
+		returnStr += ' → ' + varcou + ' ' + text01;
 	}
-	returnStr += ' → ' + varcou.join(', ');
-	if (match[5]) returnStr += ' → 成功數' + varsu
-	if (text) returnStr += ' ；　' + text
 	rply.text = returnStr;
 	return rply;
 }
