@@ -48,9 +48,9 @@ client.on('message', message => {
 			console.log('catch error');
 			console.log('Request error: ' + e.message);
 		}
-		if (rplyVal) {
+		if (rplyVal && rplyVal.text) {
 			if (privatemsg == 1) {
-				message.channel.send("暗骰進行中");
+				message.channel.send("<@" + message.author.id + "> 暗骰進行中");
 				message.author.send(rplyVal.text);;
 			} else {
 				message.channel.send("<@" + message.author.id + ">\n" + rplyVal.text)
