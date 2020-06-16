@@ -98,8 +98,8 @@ function parseInput(inputStr) {
 	if (trigger.match(/運勢/) != null) return exports.funny.randomLuck(mainMsg); //占卜運氣
 
 
-	//tarot 指令
-	if (trigger.match(/猜拳/) != null) return exports.funny.RockPaperScissors(inputStr, mainMsg[1]);
+	// //tarot 指令
+	// if (trigger.match(/猜拳/) != null) return exports.funny.RockPaperScissors(inputStr, mainMsg[1]);
 
 }
 
