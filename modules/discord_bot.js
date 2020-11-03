@@ -18,13 +18,7 @@ var TargetGM = (process.env.mongoURL) ? require('../roll/z_DDR_darkRollingToGM')
 //var Discordcounttext = 0;
 const EXPUP = require('./level').EXPUP || function () {};
 const courtMessage = require('./logs').courtMessage || function () {};
-const joinMessage = "你剛剛添加了HKTRPG 骰子機械人! \
-		\n輸入 1D100 可以進行最簡單的擲骰.\
-		\n輸入 Bothelp 觀看詳細使用說明.\
-		\n如果你需要幫助, 加入支援頻道.\
-		\n(http://bit.ly/HKTRPG_DISCORD)\
-		\n有關TRPG資訊, 可以到網站\
-		\n(http://www.hktrpg.com/)";
+const joinMessage = "你剛剛添加了骰子機械人!";
 
 
 client.once('ready', async () => {
