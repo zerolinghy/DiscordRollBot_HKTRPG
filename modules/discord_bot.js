@@ -355,6 +355,11 @@ client.on('shardReconnecting', id => console.log(`Shard with ID ${id} reconnecte
 
 //Set Activity 可以自定義正在玩什麼
 client.on('ready', () => {
-	client.user.setActivity('指令請看bothelp');
+	client.user.setPresence({
+      game: {
+        name: 'bothelp',
+        type: 3
+      }
+  });
 });
 client.login(channelSecret);
