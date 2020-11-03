@@ -123,108 +123,10 @@ var rollDiceCommand = async function ({
 	 \n COC7ed：cc 80 技能小於等於80 \
 	 \n 其他指令請到 https://github.com/zerolinghy/DiscordRollBot"
 			return rply;
-
-		case /^Dice/i.test(mainMsg[1]):
-			if (mainMsg[1].match(/^DICE$/i)) {
-				rply.text = '輸入 bothelp Dice序號 如bothelp Dice1 即可看到內容\n'
-				for (let num in Dice) {
-					rply.text += num + '. ' + Dice[num].gameName() + '\n';
-				}
-			}
-			if (mainMsg[1].match(/^Dice\d+$/i)) {
-				let temp = mainMsg[1].replace(/^dice/i, '');
-				if (!Dice[temp]) return;
-				rply.text = Dice[temp].getHelpMessage();
-			}
-			return rply;
-		case /^Tool/i.test(mainMsg[1]):
-			if (mainMsg[1].match(/^Tool$/i)) {
-				rply.text = '輸入 bothelp Tool序號 如bothelp Tool1 即可看到內容\n'
-				for (let num in Tool) {
-					rply.text += num + '. ' + Tool[num].gameName() + '\n';
-				}
-			}
-			if (mainMsg[1].match(/^Tool\d+$/i)) {
-				let temp = mainMsg[1].replace(/^Tool/i, '');
-				if (!Tool[temp]) return;
-				rply.text = Tool[temp].getHelpMessage();
-			}
-			return rply;
-
-		case /^admin/i.test(mainMsg[1]):
-			if (mainMsg[1].match(/^admin$/i)) {
-				rply.text = '輸入 bothelp admin序號 如bothelp admin1 即可看到內容\n'
-				for (let num in admin) {
-					rply.text += num + '. ' + admin[num].gameName() + '\n';
-				}
-			}
-			if (mainMsg[1].match(/^admin\d+$/i)) {
-				let temp = mainMsg[1].replace(/^admin/i, '');
-				if (!admin[temp]) return;
-				rply.text = admin[temp].getHelpMessage();
-			}
-			return rply;
-
-		case /^funny/i.test(mainMsg[1]):
-			if (mainMsg[1].match(/^funny$/i)) {
-				rply.text = '輸入 bothelp funny序號 如bothelp funny1 即可看到內容\n'
-				for (let num in funny) {
-					rply.text += num + '. ' + funny[num].gameName() + '\n';
-				}
-			}
-			if (mainMsg[1].match(/^funny\d+$/i)) {
-				let temp = mainMsg[1].replace(/^funny/i, '');
-				if (!funny[temp]) return;
-				rply.text = funny[temp].getHelpMessage();
-			}
-			return rply;
-
-		case /^help/i.test(mainMsg[1]):
-			if (mainMsg[1].match(/^help$/i)) {
-				rply.text = '輸入 bothelp help序號 如bothelp help1 即可看到內容\n'
-				for (let num in help) {
-					rply.text += num + '. ' + help[num].gameName() + '\n';
-				}
-			}
-			if (mainMsg[1].match(/^help\d+$/i)) {
-				let temp = mainMsg[1].replace(/^help/i, '');
-				if (!help[temp]) return;
-				rply.text = help[temp].getHelpMessage();
-			}
-			return rply;
-
-		case /^link/i.test(mainMsg[1]):
-			rply.text = "TRPG百科 https://www.hktrpg.com/\n\
-意見留言群 https://discord.gg/vx4kcm7\n\
-			\n\
-Line版 http://bit.ly/HKTRPG_LINE\n\
-Discord版 http://bit.ly/HKTRPG_DISCORD_\n\
-Telegram版 http://t.me/hktrpg_bot\n\
-網頁版 https://rollbot.hktrpg.com/\n\
-簡易網上擲骰網頁 https://roll.hktrpg.com/\n\
-			\n\
-解鎖功能及開發支援 https://www.patreon.com/HKTRPG \n\
-源代碼 http://bit.ly/HKTRPG_GITHUB\n"
-			return rply;
-			/**
-		case /^report/i.test(mainMsg[1]):
-			rply.text = this.getHelpMessage();
-			return rply;
-
-			 */
-		case /^req/i.test(mainMsg[1]):
-			rply.text = "請到以下問卷填寫意見，所有意見內容將改善RollBot\n\
-			https://forms.gle/uXq6taCPGJ2M99Gp9"
-			return rply;
-		default:
-			break;
 	}
 }
 
-/**
- * if (botname == "Line")
-				rply.text += "\n因為Line的機制, 如擲骰時並無顯示用家名字, 請到下列網址,和機器人任意說一句話,成為好友. \n https://line.me/R/ti/p/svMLqy9Mik\nP.S. Line 修改政策，免費帳號的Line Bot現在有每月500次的私訊限制，超過時DR等私訊功能會失效。(可以認為這功能在Line已失效，半天已400個DR私訊要求)"
- */
+
 module.exports = {
 	rollDiceCommand: rollDiceCommand,
 	initialize: initialize,
