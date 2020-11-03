@@ -112,32 +112,75 @@ function nomalDiceRoller(inputStr, text0, text1, text2) {
     finalStr = text0 + '：' + (text1 || '') + '\n'
     finalStr += await onetimeroll(text0)
   }
-
   return finalStr;
 }
 
-function onetimeroll(text0) {
-	let Str = ''
+function onetimeroll(inputStr, text0) {
+	if (mutiOrNot.toString().match(/\D/) == null) {
+		if (text2 != null) {
+			finalStr = text0 + '次擲骰：\n' + text1 + ' ' + text2 + '\n';
+		} else {
+			finalStr = text0 + '次擲骰：\n' + text1 + '\n';
+		}
+		if (mutiOrNot > 30) {
+			rply.text = '不支援30次以上的複數擲骰。';
+			return rply;
+		}
+		for (i = 1; i <= mutiOrNot; i++) {
+			let DiceToRoll = text1.toLowerCase();
+			if (DiceToRoll.match('d') == null) return undefined;
 
-  // 寫出算式
-  let equation = text0
-  while (equation.match(regex) != null) {
-    // let totally = 0
-    let tempMatch = equation.match(regex)
-    if (tempMatch[1] > 1000 || tempMatch[1] <= 0) return '不支援零顆以下及一千顆骰以上'
-    if (tempMatch[2] < 1 || tempMatch[2] > 9000000000000000) return '不支援一以下及九千兆以上'
-    equation = equation.replace(regex, await RollDice(tempMatch))
-  }
-  // 計算算式
-  let aaa = equation
-  aaa = aaa.replace(/\[.+?\]/ig, '')
-  let answer = math.eval(aaa.toString()).toString().replace(/true/i, "成功").replace(/false/i, "失敗");
-  if (equation.match(/[\s\S]{1,250}/g).length > 1) {
-    Str = answer + '（計算過程太長，僅顯示結果）';
-  } else {
-    Str = equation + ' = ' + answer
-  }
-  return Str
+			//寫出算式
+			let equation = DiceToRoll;
+			while (equation.match(/\d+d\d+/) != null) {
+				let tempMatch = equation.match(/\d+d\d+/);
+				equation = equation.replace(/\d+d\d+/, RollDice(tempMatch));
+			}
+
+			//計算算式
+			let aaa = equation;
+			aaa = aaa.replace(/\d+[[]/ig, '(');
+			aaa = aaa.replace(/]/ig, ')');
+			//aaa = aaa.replace(/[[]\d+|]/ig, "");
+			let answer = eval(aaa.toString());
+
+			finalStr = finalStr + i + '# ' + equation + ' = ' + answer + '\n';
+		}
+
+	} else {
+		//一般單次擲骰
+		let DiceToRoll = mutiOrNot.toString().toLowerCase();
+		DiceToRoll = DiceToRoll.toLowerCase();
+		if (DiceToRoll.match('d') == null) return undefined;
+
+		//寫出算式
+		let equation = DiceToRoll;
+		while (equation.match(/\d+d\d+/) != null) {
+			let totally = 0;
+			let tempMatch = equation.match(/\d+d\d+/);
+			if (tempMatch.toString().split('d')[0] > 300) return undefined;
+			if (tempMatch.toString().split('d')[1] == 1 || tempMatch.toString().split('d')[1] > 1000000) return undefined;
+			equation = equation.replace(/\d+d\d+/, RollDice(tempMatch));
+
+		}
+
+		//計算算式
+		let aaa = equation;
+		aaa = aaa.replace(/\d+[[]/ig, '(');
+		aaa = aaa.replace(/]/ig, ')');
+		let answer = eval(aaa.toString());
+
+		if (text1 != null) {
+			finalStr = text0 + '：' + text1 + '\n' + equation + ' = ' + answer;
+		} else {
+			finalStr = text0 + '：\n' + equation + ' = ' + answer;
+		}
+
+	}
+
+	rply.text = finalStr;
+	return rply;
+
 
 }
 
