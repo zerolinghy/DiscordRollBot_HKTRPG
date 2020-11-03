@@ -1,7 +1,7 @@
 {
-  "name": "hktrpg",
-  "version": "1.21.568",
-  "description": "Sad's a TRPG dice rolling bot for Telegram Line and Discord. 現支援TRPG基本擲骰1D100, COC, 永遠的後日談, 黑暗世界, DX3, SW2.0,運勢",
+  "name": "Zerolinghy",
+  "version": "1.1.0",
+  "description": "Discord Bot, amended from https://github.com/zeteticl/DiscordRollBot_HKTRPG",
   "engines": {
     "node": "^12",
     "npm": "^6"
@@ -44,17 +44,6 @@
     "wikijs": "6.0.1",
     "zlib-sync": "^0.1.7"
   },
-  "keywords": [
-    "LeoLi",
-    "Zetetic",
-    "Sad",
-    "Dice",
-    "HKTRPG",
-    "Rolling",
-    "Line",
-    "Telegram",
-    "Discord"
-  ],
   "license": "MIT",
   "devDependencies": {
     "eslint": "^7.12.1",
