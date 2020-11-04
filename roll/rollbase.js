@@ -226,7 +226,6 @@ var nomalDiceRoller = async function (text0, text1, text2) {
   //d h k l
   //for (i = 0; i < mutiOrNot; i++) {
   if (mutiOrNot.toString().match(/\D/i) == null && text1) {
-    if (text0 > 30) return '不支援30次以上的複數擲骰'
     if (text1.replace(/\d|[+]|[-]|[*]|[/]|[(]|[)]|[d]|[>]|[<]|[=]|[k]|[h]|[l]/ig, '')) return;
     finalStr = text0 + '次擲骰：\n' + text1 + ' ' + (text2 || '') + '\n'
     for (let i = 0; i < mutiOrNot; i++) {
