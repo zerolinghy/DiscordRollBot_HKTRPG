@@ -64,7 +64,7 @@ const rollDiceCommand = async function ({
 
 /**
  * 擲骰子運算
- * @param {純數字, 10即骰出1D100} diceSided 
+ * @param {純數字, 10即骰出1D100} diceSided
  */
 
 var Dice = async function (diceSided) {
@@ -206,9 +206,9 @@ var BuildRollDice = async function (inputStr) {
 
 /**
  * 普通ROLL
- * @param {1D100 || 5} text0 
- * @param {文字描述 || 1D100} text1 
- * @param {文字描述} text2 
+ * @param {1D100 || 5} text0
+ * @param {文字描述 || 1D100} text1
+ * @param {文字描述} text2
  */
 var nomalDiceRoller = async function (text0, text1, text2) {
   // 首先判斷是否是誤啟動（檢查是否有符合骰子格式）
@@ -222,11 +222,12 @@ var nomalDiceRoller = async function (text0, text1, text2) {
   let test1 = text0.match(/[(]/g) || '';
   let test2 = text0.match(/[)]/g) || '';
   if (test2.length != test1.length) return;
-  //d h k l 
+  //d h k l
   //for (i = 0; i < mutiOrNot; i++) {
   if (mutiOrNot.toString().match(/\D/i) == null && text1) {
     if (text1.replace(/\d|[+]|[-]|[*]|[/]|[(]|[)]|[d]|[>]|[<]|[=]|[k]|[h]|[l]/ig, '')) return;
     finalStr = text0 + '次擲骰：\n' + text1 + ' ' + (text2 || '') + '\n'
+    if (mutiOrNot > 30) return '不支援30次以上的複數擲骰';
     for (let i = 0; i < mutiOrNot; i++) {
       finalStr += i + 1 + '# ' + await onetimeroll(text1) + '\n'
     }
