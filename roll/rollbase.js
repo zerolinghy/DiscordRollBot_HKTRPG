@@ -218,8 +218,6 @@ var nomalDiceRoller = async function (text0, text1, text2) {
   // 排除小數點
   if (mutiOrNot.toString().match(/\./) != null) return
 
-  if(mutiOrNot.toString() > 30) return '不支援30次以上的複數擲骰'
-  
   // 先定義要輸出的Str
   let finalStr = ''
   let test1 = text0.match(/[(]/g) || '';
@@ -237,6 +235,9 @@ var nomalDiceRoller = async function (text0, text1, text2) {
     if (text0.replace(/\d|[+]|[-]|[*]|[/]|[(]|[)]|[d]|[>]|[<]|[=]|[k]|[h]|[l]/ig, '')) return;
     finalStr = text0 + '：' + (text1 || '') + '\n'
     finalStr += await onetimeroll(text0)
+  } else {
+    if (text0 > 30) return;
+    finalStr = '不支援30次以上的複數擲骰'
   }
   return finalStr;
 }
