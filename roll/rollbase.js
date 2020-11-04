@@ -236,7 +236,7 @@ var nomalDiceRoller = async function (text0, text1, text2) {
     finalStr = text0 + '：' + (text1 || '') + '\n'
     finalStr += await onetimeroll(text0)
   } else {
-    if (text0 > 30) return;
+    if (text0.replace(/\d|[+]|[-]|[*]|[/]|[(]|[)]|[d]|[>]|[<]|[=]|[k]|[h]|[l]/ig, '') > 30) return;
     finalStr = '不支援30次以上的複數擲骰'
   }
   return finalStr;
