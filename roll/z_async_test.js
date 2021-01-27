@@ -12,9 +12,9 @@ var gameName = function () {
 	return '圖片搜索 .image'
 }
 
-// var gameType = function () {
-// 	return 'funny:Wiki:hktrpg'
-// }
+var gameType = function () {
+	return 'funny:Wiki:hktrpg'
+}
 var prefixs = function () {
 	return [{
 		// first: /^[.]wiki$|^[.]tran$|^[.]tran[.]\S+$|^[.]image$|^[.]imagee$/i,
