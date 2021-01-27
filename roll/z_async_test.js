@@ -16,7 +16,8 @@ var gameType = function () {
 }
 var prefixs = function () {
 	return [{
-		first: /^[.]wiki$|^[.]tran$|^[.]tran[.]\S+$|^[.]image$|^[.]imagee$/i,
+		// first: /^[.]wiki$|^[.]tran$|^[.]tran[.]\S+$|^[.]image$|^[.]imagee$/i,
+		first: /^[.]image$|^[.]imagee$/i,
 		second: null
 	}]
 
