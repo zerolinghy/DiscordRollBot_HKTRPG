@@ -15,11 +15,11 @@ const limitArr = (process.env.DEBUG) ? [99, 99, 99, 40, 40, 99, 99, 99] : [2, 20
  * 因為資源限制，
  * 每個guild 5分鐘可以使用一次,
  * 每個ACC可以一星期一次
- * 
- *  
+ *
+ *
  * 升級的話, 個人一星期20次
  * 只有一分鐘限制
- * 
+ *
  */
 const schema = require('../modules/core-schema.js');
 const fs = require('fs').promises;
@@ -99,6 +99,107 @@ var rollDiceCommand = async function ({
             return '@' + users.username;
         } else return first;
     }
+
+    async function lots_of_messages_getter_HTML(channel, demo) {
+        const sum_messages = [];
+        let last_id;
+        let totalSize = 0;
+        // eslint-disable-next-line no-constant-condition
+        while (true) {
+            const options = {
+                limit: 100
+            };
+            if (last_id) {
+                options.before = last_id;
+            }
+            const messages = await channel.messages.fetch(options);
+            totalSize += (messages.size) ? messages.size : 0;
+            messages.forEach(element => {
+                let temp;
+                if (element.type == 'DEFAULT') {
+                    temp = {
+                        timestamp: element.createdTimestamp,
+                        contact: element.content.replace(/<@(.*?)>/ig, replacer),
+                        userName: element.author.username,
+                        isbot: element.author.bot
+                    }
+                } else
+                if (element.type !== 'DEFAULT') {
+                    temp = {
+                        timestamp: element.createdTimestamp,
+                        contact: element.author.username + '\n' + element.type,
+                        userName: '系統信息',
+                        isbot: true
+                    }
+                }
+                sum_messages.push(temp)
+            });
+            last_id = messages.last().id;
+            if (messages.size != 100) {
+                break;
+            }
+            if (demo) {
+                if (totalSize >= 500) {
+                    break;
+                }
+            }
+        }
+
+        return {
+            sum_messages: sum_messages,
+            totalSize: totalSize
+        };
+    }
+    async function lots_of_messages_getter_TXT(channel, demo) {
+        const sum_messages = [];
+        let last_id;
+        let totalSize = 0;
+        // eslint-disable-next-line no-constant-condition
+        while (true) {
+            const options = {
+                limit: 100
+            };
+            if (last_id) {
+                options.before = last_id;
+            }
+            const messages = await channel.messages.fetch(options);
+            totalSize += (messages.size) ? messages.size : 0;
+            messages.forEach(element => {
+                let temp;
+                if (element.type == 'DEFAULT') {
+                    temp = {
+                        timestamp: element.createdTimestamp,
+                        contact: element.content.replace(/<@(.*?)>/ig, replacer),
+                        userName: element.author.username,
+                        isbot: element.author.bot
+                    }
+                } else
+                if (element.type !== 'DEFAULT') {
+                    temp = {
+                        timestamp: element.createdTimestamp,
+                        contact: element.author.username + '\n' + element.type,
+                        userName: '系統信息',
+                        isbot: true
+                    }
+                }
+                sum_messages.push(temp)
+            });
+            last_id = messages.last().id;
+            if (messages.size != 100) {
+                break;
+            }
+            if (demo) {
+                if (totalSize >= 400) {
+                    break;
+                }
+            }
+        }
+
+        return {
+            sum_messages: sum_messages,
+            totalSize: totalSize
+        };
+    }
     switch (true) {
         case /^help$/i.test(mainMsg[1]):
             rply.text = this.getHelpMessage();
@@ -149,17 +250,17 @@ var rollDiceCommand = async function ({
                 demoMode = true;
             }
             /**
-             * A. 檢查GP 資料, USER 資料 
-             * 
-             * B. 檢查 GP 5分鐘DC 時間 
-             * PASS-> 檢查 
-             * 
+             * A. 檢查GP 資料, USER 資料
+             *
+             * B. 檢查 GP 5分鐘DC 時間
+             * PASS-> 檢查
+             *
              * C. USER > 檢查時間
              * 超過一星期 -> 立即進行動作
              * 更新最新使用時間
              * 運行EXPORT
-             * 
-             * 
+             *
+             *
              * 檢查
              */
             console.log('USE EXPORT HTML')
@@ -337,7 +438,7 @@ var rollDiceCommand = async function ({
                     data += '(🤖)'
                 }
                 data += M[index].userName + '	' + dateObj + '\n';
-                data += M[index].contact.replace(/<@(.*?)>/ig, rollDiceCommand.replacer)
+                data += M[index].contact.replace(/<@(.*?)>/ig, replacer)
                 data += '\n\n';
             }
             try {
@@ -355,106 +456,7 @@ var rollDiceCommand = async function ({
     }
 }
 
-async function lots_of_messages_getter_HTML(channel, demo) {
-    const sum_messages = [];
-    let last_id;
-    let totalSize = 0;
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-        const options = {
-            limit: 100
-        };
-        if (last_id) {
-            options.before = last_id;
-        }
-        const messages = await channel.messages.fetch(options);
-        totalSize += (messages.size) ? messages.size : 0;
-        messages.forEach(element => {
-            let temp;
-            if (element.type == 'DEFAULT') {
-                temp = {
-                    timestamp: element.createdTimestamp,
-                    contact: element.content.replace(/<@(.*?)>/ig, rollDiceCommand.replacer),
-                    userName: element.author.username,
-                    isbot: element.author.bot
-                }
-            } else
-            if (element.type !== 'DEFAULT') {
-                temp = {
-                    timestamp: element.createdTimestamp,
-                    contact: element.author.username + '\n' + element.type,
-                    userName: '系統信息',
-                    isbot: true
-                }
-            }
-            sum_messages.push(temp)
-        });
-        last_id = messages.last().id;
-        if (messages.size != 100) {
-            break;
-        }
-        if (demo) {
-            if (totalSize >= 500) {
-                break;
-            }
-        }
-    }
 
-    return {
-        sum_messages: sum_messages,
-        totalSize: totalSize
-    };
-}
-async function lots_of_messages_getter_TXT(channel, demo) {
-    const sum_messages = [];
-    let last_id;
-    let totalSize = 0;
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-        const options = {
-            limit: 100
-        };
-        if (last_id) {
-            options.before = last_id;
-        }
-        const messages = await channel.messages.fetch(options);
-        totalSize += (messages.size) ? messages.size : 0;
-        messages.forEach(element => {
-            let temp;
-            if (element.type == 'DEFAULT') {
-                temp = {
-                    timestamp: element.createdTimestamp,
-                    contact: element.content.replace(/<@(.*?)>/ig, rollDiceCommand.replacer),
-                    userName: element.author.username,
-                    isbot: element.author.bot
-                }
-            } else
-            if (element.type !== 'DEFAULT') {
-                temp = {
-                    timestamp: element.createdTimestamp,
-                    contact: element.author.username + '\n' + element.type,
-                    userName: '系統信息',
-                    isbot: true
-                }
-            }
-            sum_messages.push(temp)
-        });
-        last_id = messages.last().id;
-        if (messages.size != 100) {
-            break;
-        }
-        if (demo) {
-            if (totalSize >= 400) {
-                break;
-            }
-        }
-    }
-
-    return {
-        sum_messages: sum_messages,
-        totalSize: totalSize
-    };
-}
 
 function getAesString(data, key, iv) { //加密
     var keyy = CryptoJS.enc.Utf8.parse(key);
@@ -498,7 +500,7 @@ const millisToMinutesAndSeconds = (millis) => {
     millis = millis * -1;
     var minutes = Math.floor(millis / 60000);
     var seconds = ((millis % 60000) / 1000).toFixed(0);
-    //ES6 interpolated literals/template literals 
+    //ES6 interpolated literals/template literals
     //If seconds is less than 10 put a zero in front.
     return `${minutes}分鐘${(seconds < 10 ? "0" : "")}${seconds}秒`;
 }

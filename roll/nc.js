@@ -38,7 +38,7 @@ var getHelpMessage = function () {
 var initialize = function () {
 	return variables;
 }
-//nc指令開始於此 來自Rainsting/TarotLineBot 
+//nc指令開始於此 來自Rainsting/TarotLineBot
 //if (trigger.match(/^[1-4]n[c|a][+|-][1-99]$|^[1-4]n[c|a]$/) != null) return exports.nc.nechronica(trigger, mainMsg[1]);
 
 //依戀
@@ -89,7 +89,7 @@ module.exports = {
 
 /**
  * nechronica (NM依戀)
- * @param {描述} text 
+ * @param {描述} text
  */
 
 async function nechronica_mirenn(text) {

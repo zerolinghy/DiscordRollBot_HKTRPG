@@ -59,7 +59,7 @@ var rollDiceCommand = async function ( {mainMsg, groupid, userid, userrole, botn
         case /(^[.]drgm$)/i.test(mainMsg[0]) && /^addgm$/i.test(mainMsg[1]):
             //
             //增加自定義關鍵字
-            // .drgm[0] addgm[1] 代替名字[2]  
+            // .drgm[0] addgm[1] 代替名字[2]
             checkifsamename = 0
             if (channelid)
                 groupid = channelid
@@ -111,7 +111,7 @@ var rollDiceCommand = async function ( {mainMsg, groupid, userid, userrole, botn
             }
             return rply;
         case /(^[.]drgm$)/i.test(mainMsg[0]) && /^del$/i.test(mainMsg[1]) && /^all$/i.test(mainMsg[2]):
-            //    
+            //
             //刪除所有自定義關鍵字
             //
             if (channelid)

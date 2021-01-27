@@ -4,18 +4,15 @@ const channelKeyword = process.env.DISCORD_CHANNEL_KEYWORD || "";
 const channelSecret = process.env.DISCORD_CHANNEL_SECRET;
 const Discord = require('discord.js');
 const client = new Discord.Client();
+const DBL = require("dblapi.js");
+//TOP.GG
+const togGGToken = process.env.TOPGG;
+const dbl = (togGGToken) ? new DBL(togGGToken, client) : null;
 const msgSplitor = (/\S+/ig);
 const link = process.env.WEB_LINK;
 const port = process.env.PORT || 20721;
 const mongo = process.env.mongoURL
 var TargetGM = (process.env.mongoURL) ? require('../roll/z_DDR_darkRollingToGM').initialize() : '';
-//const BootTime = new Date(new Date().toLocaleString("en-US", {
-//	timeZone: "Asia/Shanghai"
-//}));
-// Load `*.js` under modules directory as properties
-//  i.e., `User.js` will become `exports['User']` or `exports.User`
-//var Discordcountroll = 0;
-//var Discordcounttext = 0;
 const EXPUP = require('./level').EXPUP || function () {};
 const courtMessage = require('./logs').courtMessage || function () {};
 const joinMessage = "你剛剛添加了骰子機械人!";
@@ -23,19 +20,44 @@ const joinMessage = "你剛剛添加了骰子機械人!";
 
 client.once('ready', async () => {
 	console.log('Discord is Ready!');
-	await count();
+	const io = require('socket.io-client');
+	const socket = io('ws://localhost:53589', {
+		reconnection: true,
+		reconnectionDelay: 1000,
+		reconnectionDelayMax: 5000,
+		reconnectionAttempts: Infinity
+	});
+	socket.on('connect', () => {
+		// either with send()
+		console.log('connect To core-www from discord!');
+		socket.on("Discord", message => {
+			if (!message.text) return;
+			let text = 'let result = this.channels.cache.get("' + message.target.id + '");if (result) {result.send("' + message.text.replace(/\r\n|\n/g, "\\n") + '");}'
+			client.shard.broadcastEval(text);
+			return;
+		});
+	});
+	socket.on('disconnect', function () {
+		console.log('disconnected from server discord');
+	});
+
+
 });
 
 async function count() {
 	if (!client.shard) return;
-	return await client.shard.fetchClientValues('guilds.cache.size')
+	const promises = [
+		client.shard.fetchClientValues('guilds.cache.size'),
+		client.shard.broadcastEval('this.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0)'),
+	];
+
+	return Promise.all(promises)
 		.then(results => {
-			console.log(`${results.reduce((acc, guildCount) => acc + guildCount, 0)} total Discord guilds`);
-			return `正在${results.reduce((acc, guildCount) => acc + guildCount, 0)} 個Discord 頻道運行`;
+			const totalGuilds = results[0].reduce((acc, guildCount) => acc + guildCount, 0);
+			const totalMembers = results[1].reduce((acc, memberCount) => acc + memberCount, 0);
+			return (`正在運行的Discord 群組數量: ${totalGuilds}\nDiscord 會員數量: ${totalMembers}`);
 		})
-		.catch(() => {
-			return;
-		});
+		.catch(console.error);
 
 }
 
@@ -59,7 +81,8 @@ client.on('message', async (message) => {
 		displayname = '',
 		channelid = '',
 		displaynameDiscord = '',
-		membercount = 0;
+		membercount = null,
+		titleName = '';
 	let TargetGMTempID = [];
 	let TargetGMTempdiyName = [];
 	let TargetGMTempdisplayname = [];
@@ -77,6 +100,11 @@ client.on('message', async (message) => {
 	if (message.channel && message.channel.id) {
 		channelid = message.channel.id;
 	}
+	if (message.guild && message.guild.name) {
+		titleName += message.guild.name + ' ';
+	}
+	if (message.channel && message.channel.name)
+		titleName += message.channel.name;
 	if (message.guild && message.guild.id) {
 		groupid = message.guild.id;
 	}
@@ -98,12 +126,7 @@ client.on('message', async (message) => {
 	}
 	//userrole -1 ban ,0 nothing, 1 user, 2 dm, 3 admin 4 super admin
 	if (message.guild && message.guild.members) {
-		//	membercount = await message.guild.members.fetch().then(member => {
-		// The member is available here.
-		//		return member.filter(member => !member.user.bot).size;
-		//	});
-		//console.log(message.guild.members.cache)
-		//membercount = message.guild.members.cache.filter(member => !member.user.bot).size;
+		membercount = message.guild.members.cache.filter(member => !member.user.bot).size;
 	}
 	if (!message.content) {
 		await courtMessage("", "Discord", "")
@@ -155,7 +178,8 @@ client.on('message', async (message) => {
 			displaynameDiscord: displaynameDiscord,
 			membercount: membercount,
 			discordClient: client,
-			discordMessage: message
+			discordMessage: message,
+			titleName: titleName
 		})
 	} else {
 		if (channelKeyword == "") {
@@ -170,7 +194,8 @@ client.on('message', async (message) => {
 				displaynameDiscord: displaynameDiscord,
 				membercount: membercount,
 				discordClient: client,
-				discordMessage: message
+				discordMessage: message,
+				titleName: titleName
 			});
 		}
 	}
@@ -189,18 +214,12 @@ client.on('message', async (message) => {
 		//	console.log('result.LevelUp 2:', rplyVal.LevelUp)
 		SendToReplychannel("<@" + userid + '>\n' + rplyVal.LevelUp, message);
 	}
-
 	if (rplyVal.discordExport) {
-		if (!link || !mongo) {
-			message.author.send('這是頻道 ' + message.channel.name + ' 的聊天紀錄', {
-				files: [
-					"./tmp/" + rplyVal.discordExport + '.txt'
-				]
-			});
-		} else {
-			message.author.send('這是頻道 ' + message.channel.name + ' 的聊天紀錄\n' + '請注意這是暫存檔案，會不定時移除，有需要請自行下載檔案。\n' +
-				link + ':' + port + "/app/discord/" + rplyVal.discordExport + '.txt')
-		}
+		message.author.send('這是頻道 ' + message.channel.name + ' 的聊天紀錄', {
+			files: [
+				"./tmp/" + rplyVal.discordExport + '.txt'
+			]
+		});
 	}
 	if (rplyVal.discordExportHtml) {
 		if (!link || !mongo) {
@@ -316,7 +335,7 @@ async function SendToId(targetid, replyText) {
 				client.users.cache.get(targetid).send(replyText.toString().match(/[\s\S]{1,2000}/g)[i]);
 			}
 		catch (e) {
-			console.log(' GET ERROR:  SendtoID: ', e.message)
+			console.log(' GET ERROR:  SendtoID: ', e.message, replyText)
 		}
 	}
 
@@ -329,7 +348,7 @@ async function SendToReply(replyText, message) {
 				await message.author.send(replyText.toString().match(/[\s\S]{1,2000}/g)[i]);
 			}
 		catch (e) {
-			console.log(' GET ERROR:  SendToReply: ', e.message)
+			console.log(' GET ERROR:  SendToReply: ', e.message, replyText, message)
 		}
 	}
 }
@@ -340,7 +359,7 @@ async function SendToReplychannel(replyText, message) {
 				await message.channel.send(replyText.toString().match(/[\s\S]{1,2000}/g)[i]);
 			}
 		catch (e) {
-			console.log(' GET ERROR: SendToReplychannel: ', e.message);
+			console.log(' GET ERROR: SendToReplychannel: ', e.message, replyText, message);
 		}
 	}
 }
@@ -355,6 +374,17 @@ client.on('shardReconnecting', id => console.log(`Shard with ID ${id} reconnecte
 
 //Set Activity 可以自定義正在玩什麼
 client.on('ready', () => {
-	client.user.setActivity('bothelp', { type: 'WATCHING'});
+	client.user.setActivity('bothelp | hktrpg.com');
+	if (togGGToken) {
+		setInterval(() => {
+			dbl.postStats(client.guilds.size);
+		}, 1800000);
+	}
 });
+if (togGGToken) {
+	dbl.on('error', e => {
+		console.log(`dbl Top.GG get Error! ${e}`);
+	})
+}
+
 client.login(channelSecret);

@@ -128,11 +128,11 @@ module.exports = {
   \n 5B10：	不加總的擲骰 會進行小至大排序 \
   \n 5B10 9：	如上,另外計算其中有多少粒大於9 \
   \n 5U10 8：	進行5D10 每骰出一粒8會有一粒獎勵骰 \
-  \n 5U10 8 9：	如上,另外計算其中有多少粒大於9 \  
+  \n 5U10 8 9：	如上,另外計算其中有多少粒大於9 \
   */
 
 /**
- * D66 
+ * D66
  */
 async function d66(text) {
 	text = (text) ? '：' + text : '：';
@@ -141,8 +141,8 @@ async function d66(text) {
 	return returnStr;
 }
 /**
- * 
- * D66S 
+ *
+ * D66S
  */
 async function d66s(text) {
 	text = (text) ? '：' + text : '：';
@@ -158,7 +158,7 @@ async function d66s(text) {
 	return returnStr;
 }
 /**
- * D66N 
+ * D66N
  */
 async function d66n(text) {
 	text = (text) ? '：' + text : '：';
@@ -175,7 +175,7 @@ async function d66n(text) {
 	return returnStr;
 }
 /***
- *	xBy 
+ *	xBy
  *  xBy<>=z  成功數1
  *  xBy Dz   成功數1
  */
@@ -206,7 +206,7 @@ async function xBy(triggermsg, text01, text02, botname) {
 
 	let match01 = /^((|d)(\d+))$/i.exec(text01);
 	//console.log('match01', match01)
-	//判斷式 0:"d5"  1:"d5" 2:"d" 3:"5" 
+	//判斷式 0:"d5"  1:"d5" 2:"d" 3:"5"
 	let text = "";
 	if (text01) text = text01
 	if (!match[5] && match01 && match01[2] && !isNaN(match01[3])) {
@@ -239,7 +239,7 @@ async function xBy(triggermsg, text01, text02, botname) {
 	}
 	//	console.log(varcou)
 	//varcou.sort(rollbase.sortNumber);
-	//(5B7>6) → 7,5,6,4,4 → 
+	//(5B7>6) → 7,5,6,4,4 →
 
 	for (let i = 0; i < varcou.length; i++) {
 		switch (true) {
@@ -297,19 +297,19 @@ async function xBy(triggermsg, text01, text02, botname) {
 	return returnStr;
 }
 /**
- * 
- * @param {xUy} triggermsg  
- * @param {*} text01 
- * @param {*} text02 
+ *
+ * @param {xUy} triggermsg
+ * @param {*} text01
+ * @param {*} text02
  * @param {*} text03
  * xUy
  * (5U10[8]) → 17[10,7],4,5,7,4 → 17/37(最大/合計)
- * (5U10[8]>8) → 1,30[9,8,8,5],1,3,4 → 成功數1 
+ * (5U10[8]>8) → 1,30[9,8,8,5],1,3,4 → 成功數1
  */
 
 async function xUy(triggermsg, text01, text02, text03) {
 
-	let match = triggermsg //判斷式  5u19,5,u,19, 
+	let match = triggermsg //判斷式  5u19,5,u,19,
 	let returnStr = '(' + triggermsg + '[' + text01 + ']';
 	if (Number(text02) <= Number(match[3]) && text02 != undefined) {
 		returnStr += '>' + text02 + ') → ';

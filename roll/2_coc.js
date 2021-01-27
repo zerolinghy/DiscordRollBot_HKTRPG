@@ -16,7 +16,7 @@ var prefixs = function () {
 		},
 		{
 			first: /(^ccb$)|(^cc$)|(^ccn[1-2]$)|(^cc[1-2]$)|(^[.]dp$)|(^成長檢定$)|(^幕間成長$)/i,
-			second: /^(\d+)|(help)$}/i
+			second: /(^\d+$)|(^help$)/i
 		}
 	]
 }
@@ -48,7 +48,7 @@ var rollDiceCommand = async function ({
 	};
 	let trigger = mainMsg[0].toLowerCase();
 	//console.log(mainMsg[1].toLowerCase())
-	if (trigger.toLowerCase() == "cc" && mainMsg[1].toLowerCase() == "help") {
+	if (trigger == "cc" && mainMsg[1].toLowerCase() == "help") {
 		rply.text = this.getHelpMessage();
 	}
 	if (trigger == ".dp" && (mainMsg[1].toLowerCase() == "help" || !mainMsg[1])) {
@@ -73,7 +73,7 @@ var rollDiceCommand = async function ({
 	if (trigger == 'cc' && mainMsg[1] <= 1000) {
 		rply.text = await coc7(mainMsg[1], mainMsg[2]);
 	}
-	//獎懲骰設定於此	
+	//獎懲骰設定於此
 	if (trigger == 'cc1' && mainMsg[1] <= 1000) {
 		rply.text = await coc7bp(mainMsg[1], '1', mainMsg[2]);
 	}
@@ -398,8 +398,8 @@ async function ccsu() {
 
 /**
  * COC6
- * @param {數字 如CB 80 的80} chack 
- * @param {後面的文字,如偵查} text 
+ * @param {數字 如CB 80 的80} chack
+ * @param {後面的文字,如偵查} text
  */
 async function coc6(chack, text) {
 	let result = '';
@@ -415,8 +415,8 @@ async function coc6(chack, text) {
 
 /**
  * COC7
- * @param {CC 80 的80} chack 
- * @param {攻擊等描述字眼} text 
+ * @param {CC 80 的80} chack
+ * @param {攻擊等描述字眼} text
  */
 
 
@@ -492,7 +492,7 @@ async function coc7bp(chack, bpdiceNum, text) {
 
 /**
  * COC7傳統創角
- * @param {年齡} text01 
+ * @param {年齡} text01
  */
 async function build7char(text01) {
 	let old = "";
@@ -626,8 +626,8 @@ async function build6char() {
 		let AppDebuffArr = [0,0,5,10,15,20,25]
 		let EDUincArr = [0,1,2,3,4,4,4]
 
-		if (old < 15) rply.text = ReStr + '等等，核心規則不允許小於15歲的人物哦。';	
-		if (old >= 90) rply.text = ReStr + '等等，核心規則不允許90歲以上的人物哦。'; 
+		if (old < 15) rply.text = ReStr + '等等，核心規則不允許小於15歲的人物哦。';
+		if (old >= 90) rply.text = ReStr + '等等，核心規則不允許90歲以上的人物哦。';
 
 		for (let i=0 ; old >= oldArr[i] ; i ++){
 			Debuff = DebuffArr[i];
@@ -639,7 +639,7 @@ async function build6char() {
 		else
 			if (old >= 40)	ReStr = ReStr + '年齡調整：從STR、CON或DEX中「總共」減去' + Debuff + '點\n（請自行手動選擇計算）。\n將APP減去' + AppDebuff +'點。可做' + EDUinc + '次EDU的成長擲骰。' ;
 		else ReStr = ReStr + '年齡調整：可做' + EDUinc + '次EDU的成長擲骰。' ;
-		ReStr = ReStr + '\n=='; 
+		ReStr = ReStr + '\n==';
 	 if (old>=40) ReStr = ReStr + '\n（以下箭號三項，自選共減' + Debuff + '點。）' ;
 		if (old<20) ReStr = ReStr + '\n（以下箭號兩項，擇一減去' + Debuff + '點。）' ;
 	 */

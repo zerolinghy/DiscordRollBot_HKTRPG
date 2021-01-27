@@ -6,13 +6,18 @@ var Dice = [],
 	funny = [],
 	help = [],
 	link = [];
+const url = "https://www.hktrpg.com/tool/notes.json"
+const fetch = require('node-fetch');
 const start = async () => {
 	await require('fs').readdirSync(__dirname).forEach(async function (file) {
 		try {
-			if (require('./' + file).gameType && require('./' + file).gameType()) {
-				var type = require('./' + file).gameType().replace(/:.*/i, '')
-				var name = file.replace('.js', '');
-				exports[type + '_' + name] = await require('./' + file);
+			if (file.match(/\.js$/) !== null && file !== 'index.js' && file !== 'demo.js' && file !== 'help.js') {
+				let tryFile = require('./' + file);
+				if (tryFile.gameType && tryFile.gameType()) {
+					var type = require('./' + file).gameType().replace(/:.*/i, '')
+					var name = file.replace('.js', '');
+					exports[type + '_' + name] = await require('./' + file);
+				}
 			}
 
 		} catch (error) {
@@ -102,31 +107,143 @@ var rollDiceCommand = async function ({
 	switch (true) {
 		case !mainMsg[1]:
 			rply.text =
-			"【Discord擲骰BOT】\
-	 \n  \
-	 \n 支援基本擲骰, COC, 永遠的後日談, 黑暗世界, DX3, SW2.0 \
-	 \n 暗骰功能 在指令前打dr 結果會私訊你\
-	 \n 基本擲骰1d100\
-	 \n 例如輸入2d6+1　攻撃！\
-	 \n 會輸出）2d6+1：攻撃  9[6+3]+1 = 10\
-	 \n 如上面一樣,在骰子數字後方隔空白位打字,可以進行發言。\
-	 \n 以下還有其他例子\
-	 \n 5 3D6 	：分別骰出5次3d6\
-	 \n D66 D66s ：骰出D66 s小者固定在前\
-	 \n 5B10：不加總的擲骰 會進行小至大排序 \
-	 \n 5B10 9：如上,另外計算其中有多少粒大於9 \
-	 \n 5U10 8：進行5D10 每骰出一粒8會有一粒獎勵骰 \
-	 \n 5U10 8 9：如上,另外計算其中有多少粒大於9 \
-	 \n 隨機選擇：啓動語choice/隨機/選項/選1\
-	 \n (問題)(啓動語)(問題)  (選項1) (選項2) \
-	 \n 例子 隨機收到聖誕禮物數 1 2 3 >4  \
-	 \n COC7ed：cc 80 技能小於等於80 \
-	 \n 其他指令請到 https://github.com/zerolinghy/DiscordRollBot"
+				"【HKTRPG擲骰ROLLBOT】\n\
+HKTRPG是在Discord, Line, Telegram, Whatsapp和網頁上都可以使用的骰子機械人！\n\
+請問有什麼可以幫助你?\n\
+請輸入你想查詢的項目名字.\n\
+-------\n\
+bothelp ver		- 查詢詳細版本及公告(" + ver + ")\n\
+bothelp Base	- 查詢trpg 基本擲骰指令\n\
+bothelp Dice	- 查詢trpg 不同系統擲骰指令\n\
+bothelp Tool	- 查詢trpg 輔助工具\n\
+bothelp admin	- 查詢系統工具\n\
+bothelp funny	- 查詢趣味功能\n\
+bothelp link	- 查詢hktrpg 不同平台連結\n\
+bothelp req		- 對HKTRPG RollBot提出意見\n\
+--------\n\
+程式開發，求助及TRPG Discord群 https://discord.gg/vx4kcm7\n\
+解鎖功能及贊助HKTRPG https://www.patreon.com/HKTRPG"
 			return rply;
+		case /^ver/i.test(mainMsg[1]):
+			rply.text = version + '\n\
+最近更新: \n\
+2019/07/21 香港克警合作 黑ICON紀念\n\
+2020/09/07 Bothelp 顯示方法更新\n';
+			try {
+				const response = await fetch(url);
+				const json = await response.json();
+				if (json.news)
+					rply.text += json.news;
+			} catch (error) {
+				console.log(error);
+			}
+			return rply;
+		case /^BASE/i.test(mainMsg[1]):
+			rply.text = getHelpMessage();
+			return rply;
+		case /^Dice/i.test(mainMsg[1]):
+			if (mainMsg[1].match(/^DICE$/i)) {
+				rply.text = '輸入 bothelp Dice序號 如bothelp Dice1 即可看到內容\n'
+				for (let num in Dice) {
+					rply.text += num + '. ' + Dice[num].gameName() + '\n';
+				}
+			}
+			if (mainMsg[1].match(/^Dice\d+$/i)) {
+				let temp = mainMsg[1].replace(/^dice/i, '');
+				if (!Dice[temp]) return;
+				rply.text = Dice[temp].getHelpMessage();
+			}
+			return rply;
+		case /^Tool/i.test(mainMsg[1]):
+			if (mainMsg[1].match(/^Tool$/i)) {
+				rply.text = '輸入 bothelp Tool序號 如bothelp Tool1 即可看到內容\n'
+				for (let num in Tool) {
+					rply.text += num + '. ' + Tool[num].gameName() + '\n';
+				}
+			}
+			if (mainMsg[1].match(/^Tool\d+$/i)) {
+				let temp = mainMsg[1].replace(/^Tool/i, '');
+				if (!Tool[temp]) return;
+				rply.text = Tool[temp].getHelpMessage();
+			}
+			return rply;
+
+		case /^admin/i.test(mainMsg[1]):
+			if (mainMsg[1].match(/^admin$/i)) {
+				rply.text = '輸入 bothelp admin序號 如bothelp admin1 即可看到內容\n'
+				for (let num in admin) {
+					rply.text += num + '. ' + admin[num].gameName() + '\n';
+				}
+			}
+			if (mainMsg[1].match(/^admin\d+$/i)) {
+				let temp = mainMsg[1].replace(/^admin/i, '');
+				if (!admin[temp]) return;
+				rply.text = admin[temp].getHelpMessage();
+			}
+			return rply;
+
+		case /^funny/i.test(mainMsg[1]):
+			if (mainMsg[1].match(/^funny$/i)) {
+				rply.text = '輸入 bothelp funny序號 如bothelp funny1 即可看到內容\n'
+				for (let num in funny) {
+					rply.text += num + '. ' + funny[num].gameName() + '\n';
+				}
+			}
+			if (mainMsg[1].match(/^funny\d+$/i)) {
+				let temp = mainMsg[1].replace(/^funny/i, '');
+				if (!funny[temp]) return;
+				rply.text = funny[temp].getHelpMessage();
+			}
+			return rply;
+
+		case /^help/i.test(mainMsg[1]):
+			if (mainMsg[1].match(/^help$/i)) {
+				rply.text = '輸入 bothelp help序號 如bothelp help1 即可看到內容\n'
+				for (let num in help) {
+					rply.text += num + '. ' + help[num].gameName() + '\n';
+				}
+			}
+			if (mainMsg[1].match(/^help\d+$/i)) {
+				let temp = mainMsg[1].replace(/^help/i, '');
+				if (!help[temp]) return;
+				rply.text = help[temp].getHelpMessage();
+			}
+			return rply;
+
+		case /^link/i.test(mainMsg[1]):
+			rply.text = "TRPG百科 https://www.hktrpg.com/\n\
+意見留言群 https://discord.gg/vx4kcm7\n\
+			\n\
+邀請HKTRPG 加入\n\
+Line 邀請連結 http://bit.ly/HKTRPG_LINE\n\
+Discord 邀請連結 http://bit.ly/HKTRPG_DISCORD_\n\
+Telegram 邀請連結 http://t.me/hktrpg_bot\n\
+網頁版 邀請連結 https://rollbot.hktrpg.com/\n\
+簡易網上擲骰網頁 https://roll.hktrpg.com/\n\
+			\n\
+HKTRPG 研究社 Facebook https://www.facebook.com/groups/HKTRPG\n\
+解鎖功能及贊助 https://www.patreon.com/HKTRPG \n\
+源代碼 http://bit.ly/HKTRPG_GITHUB\n"
+			return rply;
+			/**
+		case /^report/i.test(mainMsg[1]):
+			rply.text = this.getHelpMessage();
+			return rply;
+
+			 */
+		case /^req/i.test(mainMsg[1]):
+			rply.text = "請到以下問卷填寫意見，所有意見內容將改善RollBot\n\
+			https://forms.gle/uXq6taCPGJ2M99Gp9"
+			return rply;
+		default:
+			break;
 	}
 }
 
-
+/**
+ * if (botname == "Line")
+				rply.text += "\n因為Line的機制, 如擲骰時並無顯示用家名字, 請到下列網址,和機器人任意說一句話,成為好友. \n https://line.me/R/ti/p/svMLqy9Mik\nP.S. Line 修改政策，免費帳號的Line Bot現在有每月500次的私訊限制，超過時DR等私訊功能會失效。(可以認為這功能在Line已失效，半天已400個DR私訊要求)"
+ */
 module.exports = {
 	rollDiceCommand: rollDiceCommand,
 	initialize: initialize,
@@ -186,7 +303,7 @@ bothelp report - 意見提供
 輸入 5 或 bothelp funny
 1: 【趣味擲骰】 排序(至少3個選項) choice/隨機(至少2個選項) 每日塔羅 運勢 立flag .me
 17: (公測中)經驗值功能 .level (show config LevelUpWord RankWord)
-18: Wiki查詢/圖片搜索 .wiki .image
+18: Wiki查詢/圖片搜索 .wiki .image 
 20: (公測中)自定義回應功能 .ra(p)(次數) (add del show 自定關鍵字)
 23: (公測中)資料庫功能 .db(p) (add del show 自定關鍵字)
 ------

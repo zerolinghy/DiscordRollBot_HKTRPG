@@ -30,7 +30,7 @@ var rollDiceCommand = async function ({mainMsg}) {
 		type: 'text',
 		text: ''
 	};
-	let matchwod = /^[.](\d+)(wd|wod)(\d|)((\+|-)(\d+)|)$/i.exec(mainMsg[0]); //判斷式  [0]3wd8+10,[1]3,[2]wd,[3]8,[4]+10,[5]+,[6]10  
+	let matchwod = /^[.](\d+)(wd|wod)(\d|)((\+|-)(\d+)|)$/i.exec(mainMsg[0]); //判斷式  [0]3wd8+10,[1]3,[2]wd,[3]8,[4]+10,[5]+,[6]10
 	//console.log(matchwod)
 	if (matchwod && matchwod[1] >= 1 && matchwod[1] <= 600)
 		rply.text = await wod(mainMsg[0], mainMsg[1]);
@@ -48,8 +48,8 @@ module.exports = {
 };
 /**
  * WOD黑暗世界
- * @param {.5WD6} triggermsg 
- * @param {文字描述} text 
+ * @param {.5WD6} triggermsg
+ * @param {文字描述} text
  */
 
 async function wod(triggermsg, text) {
@@ -57,7 +57,7 @@ async function wod(triggermsg, text) {
 	var returnStr = triggermsg + ' [';
 	var varcou = 0;
 	var varsu = 0;
-	var match = /^[.](\d+)(wd|wod)(\d|)((\+|-)(\d+)|)$/i.exec(triggermsg); //判斷式  [0]3wd8+10,[1]3,[2]wd,[3]8,[4]+10,[5]+,[6]10  
+	var match = /^[.](\d+)(wd|wod)(\d|)((\+|-)(\d+)|)$/i.exec(triggermsg); //判斷式  [0]3wd8+10,[1]3,[2]wd,[3]8,[4]+10,[5]+,[6]10
 	if (match[3] == "") {
 		match[3] = 10
 	}

@@ -112,7 +112,7 @@ var Title = function () {
     稱號
     0-3     無名調查員
     4-7     調查員
-    8-10    記者    
+    8-10    記者
     11-13   偵探
     14-17   考古家
     18-20   神秘學家
@@ -126,7 +126,17 @@ var Title = function () {
     44-47   外神
     48-50   門
     */
-var rollDiceCommand = async function ({inputStr, mainMsg, groupid, userid, userrole, botname, displayname,  displaynameDiscord, membercount}) {
+var rollDiceCommand = async function ({
+    inputStr,
+    mainMsg,
+    groupid,
+    userid,
+    userrole,
+    botname,
+    displayname,
+    displaynameDiscord,
+    membercount
+}) {
     let rply = {
         default: 'on',
         type: 'text',
@@ -453,7 +463,7 @@ var rollDiceCommand = async function ({inputStr, mainMsg, groupid, userid, userr
             //5.    讀取群組的排名語
             //6.    ->沒有 使用預設排名語
             //7.    使用排名語, 根據內容進行替換.
-            //8.    
+            //8.
             //{user.name} 名字 {user.level} 等級 \
             //{user.title} 稱號
             // { user.exp } 經驗值 { user.Ranking } 現在排名 \
@@ -493,12 +503,12 @@ var rollDiceCommand = async function ({inputStr, mainMsg, groupid, userid, userr
                                         let userlevel = trpgLevelSystemfunction.trpgLevelSystemfunction[i].trpgLevelSystemfunction[a].Level;
                                         let userexp = trpgLevelSystemfunction.trpgLevelSystemfunction[i].trpgLevelSystemfunction[a].EXP;
                                         //console.log('trpgLevelSystemfunction.trpgLevelSystemfunction[i]',
-                                        let usermember_count = membercount || trpgLevelSystemfunction.trpgLevelSystemfunction[i].trpgLevelSystemfunction.length;
+                                        let usermember_count = Math.max(membercount, trpgLevelSystemfunction.trpgLevelSystemfunction[i].trpgLevelSystemfunction.length);
                                         let userRanking = await ranking(userid, trpgLevelSystemfunction.trpgLevelSystemfunction[i].trpgLevelSystemfunction);
                                         let userRankingPer = Math.ceil(userRanking / usermember_count * 10000) / 100 + '%';
                                         let userTitle = await this.checkTitle(userlevel, trpgLevelSystemfunction.trpgLevelSystemfunction[i].Title);
                                         //Title 首先檢查  trpgLevelSystemfunction.trpgLevelSystemfunction[i].trpgLevelSystemfunction[a].Title[0].Lvl 有沒有那個LV的TITLE
-                                        //沒有  則使用預設 
+                                        //沒有  則使用預設
 
                                         //{user.name} 名字 {user.level} 等級 \
                                         ////{user.title} 稱號
@@ -525,7 +535,7 @@ var rollDiceCommand = async function ({inputStr, mainMsg, groupid, userid, userr
                                     //let userexp = math.floor(math.random() * 10) + 15
                                     let userexp = (await rollbase.Dice(10) - 1) + 15
                                     //console.log('trpgLevelSystemfunction.trpgLevelSystemfunction[i]',
-                                    let usermember_count = membercount || trpgLevelSystemfunction.trpgLevelSystemfunction[i].trpgLevelSystemfunction.length;
+                                    let usermember_count = Math.max(membercount, trpgLevelSystemfunction.trpgLevelSystemfunction[i].trpgLevelSystemfunction.length);
                                     let userRanking = await ranking(userid, trpgLevelSystemfunction.trpgLevelSystemfunction[i].trpgLevelSystemfunction);
                                     let userRankingPer = Math.ceil(userRanking / usermember_count * 10000) / 100 + '%';
                                     let userTitle = await this.checkTitle(userlevel, trpgLevelSystemfunction.trpgLevelSystemfunction[i].Title);
