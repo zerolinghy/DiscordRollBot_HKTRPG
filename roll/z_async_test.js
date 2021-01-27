@@ -3,17 +3,18 @@
 //heroku labs:enable runtime-dyno-metadata -a <app name>
 var chineseConv = require('chinese-conv'); //繁簡轉換
 const duckImage = require('@zetetic/duckduckgo-images-api')
-const wiki = require('wikijs').default;
+// const wiki = require('wikijs').default;
 const rollbase = require('./rollbase.js');
-const translate = require('@vitalets/google-translate-api');
+// const translate = require('@vitalets/google-translate-api');
 var variables = {};
 var gameName = function () {
-	return 'Wiki查詢/圖片搜索 .wiki .image .tran'
+	// return 'Wiki查詢/圖片搜索 .wiki .image .tran'
+	return '圖片搜索 .image'
 }
 
-var gameType = function () {
-	return 'funny:Wiki:hktrpg'
-}
+// var gameType = function () {
+// 	return 'funny:Wiki:hktrpg'
+// }
 var prefixs = function () {
 	return [{
 		// first: /^[.]wiki$|^[.]tran$|^[.]tran[.]\S+$|^[.]image$|^[.]imagee$/i,
