@@ -42,7 +42,7 @@ var prefixs = function () {
 // }
 var getHelpMessage = function () {
 	return "圖片搜尋功能: .image (內容)  \n\
-從Google 得到相關隨機圖片Link\n\
+從DuckDuckGo得到相關隨機圖片Link\n\
 隨機YES NO: 如.image yesno 會得到yes 或NO 結果\n\
 "
 }
