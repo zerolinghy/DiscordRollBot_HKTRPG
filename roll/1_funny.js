@@ -87,7 +87,7 @@ var rollDiceCommand = async function ({
 			if (mainMsg[0].match(/^大十字塔羅/) != null)
 				rply.text = await MultiDrawTarot(mainMsg[1], mainMsg[2], 2);
 			return rply;
-		case /^命運之人$/i.test(mainMsg[0]):
+		case (/命運之人$|^命運之人/i.test(mainMsg[0]) && mainMsg[0].toString().match(/[\s\S]{1,25}/g).length <= 1):
 			rply.text = await DargonCityDraw(mainMsg[1], mainMsg[2]);
 			return rply;
 		case (/立flag$|^立flag/i.test(mainMsg[0]) && mainMsg[0].toString().match(/[\s\S]{1,25}/g).length <= 1):
@@ -275,8 +275,7 @@ async function NomalDrawTarot(text, text2) {
 }
 
 async function DargonCityDraw(text, text2) {
-	let returnStr = '';
-	returnStr = '命運之人'
+	returnStr = '命運之人';
 	(text) ? returnStr += "；" + text + " " + text2: '';
 	cards = await rollbase.shuffleTarget(DargonCityList);
 	returnStr += '第一張: ' + cards[0] + '\n'
