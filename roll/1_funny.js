@@ -275,6 +275,8 @@ async function NomalDrawTarot(text, text2) {
 }
 
 async function DargonCityDraw(text, text2) {
+	let returnStr = '';
+	let cards = []
 	returnStr = '命運之人';
 	(text) ? returnStr += "；" + text + " " + text2: '';
 	cards = await rollbase.shuffleTarget(DargonCityList);
