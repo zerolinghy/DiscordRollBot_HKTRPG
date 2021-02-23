@@ -603,7 +603,7 @@ const TarotList2 = ["愚者 ＋",
 	"空白"
 ]
 
-const TarotList = ["世界 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/01-World.jpg",
+const DargonCityList = ["世界 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/01-World.jpg",
 	"信仰 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/02-Faith.jpg",
 	"城市 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/03-City.jpg",
 	"塔樓 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/04-Tower.jpg",
