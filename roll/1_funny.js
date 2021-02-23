@@ -235,7 +235,7 @@ async function MultiDrawTarot(text, text2, type) {
 	let cards = []
 	switch (type) {
 		case 1:
-			returnStr = '時間塔羅';
+			returnStr = '時間塔羅\n';
 			(text) ? returnStr += "；" + text + " " + text2: '';
 			cards = await rollbase.shuffleTarget(TarotList2);
 			returnStr += '過去: ' + cards[0] + '\n'
@@ -243,7 +243,7 @@ async function MultiDrawTarot(text, text2, type) {
 			returnStr += '未來: ' + cards[2] + '\n'
 			break;
 		case 2:
-			returnStr = '大十字塔羅';
+			returnStr = '大十字塔羅\n';
 			(text) ? returnStr += "；" + text + " " + text2: '';
 			cards = await rollbase.shuffleTarget(TarotList2);
 			returnStr += '現況: ' + cards[0] + '\n'
