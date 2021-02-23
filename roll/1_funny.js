@@ -279,8 +279,8 @@ async function DargonCityDraw(text, text2) {
 	(text) ? returnStr += "；" + text + " " + text2: '';
 	cards = await rollbase.shuffleTarget(DargonCityList);
 	returnStr += '第一張: ' + cards[0] + '\n'
-	returnStr += '第一張: ' + cards[1] + '\n'
-	returnStr += '第一張: ' + cards[2] + '\n'
+	returnStr += '第二張: ' + cards[1] + '\n'
+	returnStr += '第三張: ' + cards[2] + '\n'
 	return returnStr;
 }
 
