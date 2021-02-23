@@ -11,7 +11,7 @@ var gameType = function () {
 }
 var prefixs = function () {
 	return [{
-		first: /^[.]me$|排序|隨機|choice|^每日塔羅|^時間塔羅|^大十字塔羅|立flag|運勢|鴨霸獸/i,
+		first: /^[.]me$|排序|隨機|choice|^每日塔羅|^時間塔羅|^大十字塔羅|r命運之人|立flag|運勢|鴨霸獸/i,
 		second: null
 	}]
 }
@@ -86,6 +86,9 @@ var rollDiceCommand = async function ({
 				rply.text = await MultiDrawTarot(mainMsg[1], mainMsg[2], 1);
 			if (mainMsg[0].match(/^大十字塔羅/) != null)
 				rply.text = await MultiDrawTarot(mainMsg[1], mainMsg[2], 2);
+			return rply;
+		case (/r命運之人$|^r命運之人/i.test(mainMsg[0]) && mainMsg[0].toString().match(/[\s\S]{1,25}/g).length <= 1):
+			rply.text = await DargonCityDraw(mainMsg[1], mainMsg[2]); //預設抽 79 張
 			return rply;
 		case (/立flag$|^立flag/i.test(mainMsg[0]) && mainMsg[0].toString().match(/[\s\S]{1,25}/g).length <= 1):
 			rply.text = await BStyleFlagSCRIPTS();
@@ -271,6 +274,16 @@ async function NomalDrawTarot(text, text2) {
 	return returnStr;
 }
 
+async function DargonCityDraw(text, text2) {
+	let returnStr = '';
+	returnStr = '命運之人'
+	(text) ? returnStr += "；" + text + " " + text2: '';
+	cards = await rollbase.shuffleTarget(DargonCityList);
+	returnStr += '第一張: ' + cards[0] + '\n'
+	returnStr += '第一張: ' + cards[1] + '\n'
+	returnStr += '第一張: ' + cards[2] + '\n'
+	return returnStr;
+}
 
 const TarotList = ["愚者 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/tarot/00.jpg",
 	"魔術師 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/tarot/01.jpg",
@@ -587,6 +600,35 @@ const TarotList2 = ["愚者 ＋",
 	"權杖騎士 －",
 	"權杖侍者 －",
 	"權杖皇后 －",
+	"空白"
+]
+
+const TarotList = ["世界 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/01-World.jpg",
+	"信仰 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/02-Faith.jpg",
+	"城市 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/03-City.jpg",
+	"塔樓 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/04-Tower.jpg",
+	"家庭 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/05-Family.jpg",
+	"寂靜 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/06-Quiet.jpg",
+	"小徑 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/07-Path.jpg",
+	"山雲 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/08-Cloud.jpg",
+	"岩石 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/09-Rock.jpg",
+	"巔峰 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/10-Peak.jpg",
+	"日暮 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/11-Sun.jpg",
+	"曙光 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/12-Dawn.jpg",
+	"沉默 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/13-Silence.jpg",
+	"河流 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/14-River.jpg",
+	"海洋 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/15-Ocean.jpg",
+	"湖泊 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/16-Lake.jpg",
+	"瀑布 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/17-Waterfall.jpg",
+	"狹縫 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/18-Slit.jpg",
+	"田野 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/19-Field.jpg",
+	"相反 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/20-Contrast.jpg",
+	"街道 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/21-Street.jpg",
+	"規則 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/22-Rules.jpg",
+	"雪原 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/23-SnowField.jpg",
+	"雪山 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/24-SnowMountain.jpg",
+	"霧靄 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/25-Haze.jpg",
+	"飛翔 ＋\nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/26-Fly.jpg",
 	"空白"
 ]
 
