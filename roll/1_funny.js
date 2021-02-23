@@ -87,8 +87,8 @@ var rollDiceCommand = async function ({
 			if (mainMsg[0].match(/^大十字塔羅/) != null)
 				rply.text = await MultiDrawTarot(mainMsg[1], mainMsg[2], 2);
 			return rply;
-		case (/r命運之人$|^r命運之人/i.test(mainMsg[0]) && mainMsg[0].toString().match(/[\s\S]{1,25}/g).length <= 1):
-			rply.text = await DargonCityDraw(mainMsg[1], mainMsg[2]); //預設抽 79 張
+		case /^r命運之人$/i.test(mainMsg[0]):
+			rply.text = await DargonCityDraw(mainMsg[1], mainMsg[2]);
 			return rply;
 		case (/立flag$|^立flag/i.test(mainMsg[0]) && mainMsg[0].toString().match(/[\s\S]{1,25}/g).length <= 1):
 			rply.text = await BStyleFlagSCRIPTS();
