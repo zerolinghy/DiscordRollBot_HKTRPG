@@ -629,8 +629,7 @@ const DargonCityList = ["世界 \nhttps://raw.githubusercontent.com/zerolinghy/D
 	"雪原 \nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/23-SnowField.jpg",
 	"雪山 \nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/24-SnowMountain.jpg",
 	"霧靄 \nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/25-Haze.jpg",
-	"飛翔 \nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/26-Fly.jpg",
-	"空白"
+	"飛翔 \nhttps://raw.githubusercontent.com/zerolinghy/DiscordRollBot/master/assets/dargon_city/26-Fly.jpg"
 ]
 
 /**
