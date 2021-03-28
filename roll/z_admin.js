@@ -24,7 +24,8 @@ var gameType = function () {
 }
 var prefixs = function () {
     return [{
-        first: /^[.]admin$/i,
+        // first: /^[.]admin$/i,
+        first: /^[.]adminadminadmin$/i,
         second: null
     }]
 }
