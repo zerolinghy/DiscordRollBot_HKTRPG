@@ -60,7 +60,7 @@ var version = "";
 
 
 var gameName = function () {
-	return '骰子機器人HKTRPG說明';
+	return '骰子機器人說明';
 }
 
 var gameType = function () {
