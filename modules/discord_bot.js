@@ -156,14 +156,14 @@ client.on('message', async (message) => {
 		privatemsg = 1;
 		inputStr = inputStr.replace(/^[d][r][ ]/i, '');
 	}
-	if (trigger.match(/^ddr$/i) && mainMsg && mainMsg[1]) {
-		privatemsg = 2;
-		inputStr = inputStr.replace(/^[d][d][r][ ]/i, '');
-	}
-	if (trigger.match(/^dddr$/i) && mainMsg && mainMsg[1]) {
-		privatemsg = 3;
-		inputStr = inputStr.replace(/^[d][d][d][r][ ]/i, '');
-	}
+	// if (trigger.match(/^ddr$/i) && mainMsg && mainMsg[1]) {
+	// 	privatemsg = 2;
+	// 	inputStr = inputStr.replace(/^[d][d][r][ ]/i, '');
+	// }
+	// if (trigger.match(/^dddr$/i) && mainMsg && mainMsg[1]) {
+	// 	privatemsg = 3;
+	// 	inputStr = inputStr.replace(/^[d][d][d][r][ ]/i, '');
+	// }
 
 	if (channelKeyword != "" && trigger == channelKeyword.toString().toLowerCase()) {
 		//mainMsg.shift();
